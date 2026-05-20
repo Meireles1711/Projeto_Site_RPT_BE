@@ -1,0 +1,14 @@
+###
+POST http://localhost:3000/comentarios/7
+Content-Type: application/json
+
+{
+    "autor": "Aluno",
+    "conteudo": "Muito bom esse post!"
+}
+
+### 
+GET http://localhost:3000/comentarios/9
+
+###
+POST http://localhost:3000/likes/1
