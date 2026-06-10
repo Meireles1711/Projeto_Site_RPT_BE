@@ -1,14 +1,19 @@
 ###
-POST http://localhost:3000/comentarios/7
+
+POST http://localhost:3000/formas
 Content-Type: application/json
 
 {
-    "autor": "Aluno",
-    "conteudo": "Muito bom esse post!"
+  "descricao": "pix"
+  
 }
 
-### 
-GET http://localhost:3000/comentarios/9
 
 ###
-POST http://localhost:3000/likes/1
+GET  http://localhost:3000/condicao/
+
+###
+GET  http://localhost:3000/condicao/1
+
+###
+DELETE http://localhost:3000/condicao/1

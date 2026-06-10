@@ -2,38 +2,38 @@ const db = require('../config/db');
 
 exports.buscarTodos= async () => {
     const [rows] = await db.promise().query(
-        'SELECT * FROM cidades'
+        'SELECT * FROM formas_pagamento'
     );
     return rows;
 };
 
 exports.buscarPorId = async (id) => {
     const [rows] = await db.promise().query(
-        'SELECT * FROM cidades WHERE id = ?',
+        'SELECT * FROM formas_pagamento WHERE id = ?',
         [id]
     );
     return rows[0];
 };
 
-exports.criar = async ({ nome, uf }) => {
+exports.criar = async ({descricao }) => {
     const [result] = await db.promise().query(
-        'INSERT INTO cidades (nome, uf) VALUES (?, ?)',
-        [nome, uf]
+        'INSERT INTO formas_pagamento (descricao) VALUES ( ?)',
+        [descricao]
     );
 
     return result.insertId;
 };
 
-exports.atualizar = async (id, { nome, uf }) => {
+exports.atualizar = async (id, { descricao}) => {
     await db.promise().query(
-        'UPDATE cidades SET nome = ?, uf = ? WHERE id = ?',
-        [nome, uf, id]
+        'UPDATE formas_pagamento SET descricao = ?,  WHERE id = ?',
+        [descricao, id]
     );
 };
 
 exports.deletar = async (id) => {
     await db.promise().query(
-        'DELETE FROM cidades WHERE id = ?',
+        'DELETE FROM formas_pagamento WHERE id = ?',
         [id]
     );
 };

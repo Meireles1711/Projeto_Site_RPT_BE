@@ -5,6 +5,10 @@ require('dotenv').config();
 const postsRoutes = require('./routes/posts.routes');
 const comentariosRoutes = require('./routes/comentarios.routes');
 const likesRoutes = require('./routes/likes.routes');
+
+const cidadesRoutes = require('./routes/cidades.routes');
+const condicaoRoutes = require('./routes/condicoes_p.routes');
+const formaRoutes = require('./routes/formas_p.routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 
 const app = express();
@@ -15,6 +19,9 @@ app.use(express.json());
 app.use('/posts', postsRoutes);
 app.use('/comentarios', comentariosRoutes);
 app.use('/likes', likesRoutes);
+app.use('/cidades', cidadesRoutes);
+app.use('/condicao', condicaoRoutes);
+app.use('/formas', formaRoutes);
 
 app.use(errorMiddleware);
 

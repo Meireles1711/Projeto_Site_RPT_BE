@@ -1,4 +1,4 @@
-const model = require('../models/cidades.models');
+const model = require('../models/formas_p.models');
 
 exports.listar = async (req, res, next) => {
   try {
@@ -13,7 +13,7 @@ exports.listar = async (req, res, next) => {
 exports.buscarPorId = async (req, res, next) => {
     try {
       const posts = await model.buscarPorId(req.params.id);
-      if (!posts) return res.status(404).json({ erro: 'Cidade não encontrada' });
+      if (!posts) return res.status(404).json({ erro: 'Forma de pagamento não encontrada' });
       res.json(posts);
     } catch (err) {
       next(err);
@@ -23,23 +23,22 @@ exports.buscarPorId = async (req, res, next) => {
 
   exports.criar = async (req, res, next) => {
       try {
-          const { nome,uf } = req.body;
-          const id = await model.criar({ nome,uf });
-          res.status(201).json({ id, nome,uf });
+          const { descricao } = req.body;
+          const id = await model.criar({ descricao });
+          res.status(201).json({ id,descricao});
       } catch (err) {
           next(err);
       }
   };
   exports.atualizar = async (req, res, next) => {
     try {
-        const { nome, uf } = req.body;
+        const {descricao} = req.body;
 
-        await model.atualizar(req.params.id, { nome, uf });
+        await model.atualizar(req.params.id, { descricao });
 
         res.json({
             id: req.params.id,
-            nome,
-            uf
+            descricao
         });
     } catch (err) {
         next(err);
@@ -49,7 +48,7 @@ exports.buscarPorId = async (req, res, next) => {
   exports.deletar = async (req, res, next) => {
       try {
           await model.deletar(req.params.id);
-          res.json({ mensagem: 'Cidade Removida com Sucesso'});
+          res.json({ mensagem: 'Forma de pagamento Removida com Sucesso'});
       } catch (err) {
           next(err);
           

@@ -1,19 +1,19 @@
 ###
 
-POST http://localhost:3000/posts
+POST http://localhost:3000/cidades
 Content-Type: application/json
 
 {
-  "autor": "Diego",
-  "conteudo": "Minha primeira postagem!"
+  "nome": "mg",
+  "uf": "mg"
 }
 
 
 ###
-GET  http://localhost:3000/posts
+GET  http://localhost:3000/cidades/
 
 ###
-GET  http://localhost:3000/posts/5
+GET  http://localhost:3000/cidades/1
 
 ###
-DELETE http://localhost:3000/posts/5
+DELETE http://localhost:3000/cidades/1
