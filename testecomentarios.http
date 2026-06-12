@@ -1,19 +1,23 @@
 ###
 
-POST http://localhost:3000/formas
+POST http://localhost:3000/produtos
 Content-Type: application/json
 
 {
-  "descricao": "pix"
+  "descricao": "bolo",
+  "unidade": "um",
+  "valor_unit": "14.50",
+  "estoque": "20"
+  
   
 }
 
 
 ###
-GET  http://localhost:3000/condicao/
+GET  http://localhost:3000/produtos/
 
 ###
-GET  http://localhost:3000/condicao/1
+GET  http://localhost:3000/produtos/1
 
 ###
-DELETE http://localhost:3000/condicao/1
+DELETE http://localhost:3000/produtos/1

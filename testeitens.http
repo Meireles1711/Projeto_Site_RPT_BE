@@ -1,0 +1,24 @@
+
+###
+
+POST http://localhost:3000/itens
+Content-Type: application/json
+
+{
+  "pedido_id": "10",
+  " produto_id": "3",
+  "descricao": "DDD",
+  "valor_unit": "20",
+   "quantidade": "10",
+     "subtotal": "5"
+}
+
+
+###
+GET  http://localhost:3000/itens/
+
+###
+GET  http://localhost:3000/itens/1
+
+###
+DELETE http://localhost:3000/itens/7
