@@ -12,6 +12,19 @@ Content-Type: application/json
   
 }
 
+PUT http://localhost:3000/produtos
+Content-Type: application/json
+
+{
+  "descricao": "bolo",
+  "unidade": "um",
+  "valor_unit": "14.50",
+  "estoque": "20"
+  
+  
+}
+
+
 
 ###
 GET  http://localhost:3000/produtos/

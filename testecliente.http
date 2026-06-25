@@ -18,6 +18,23 @@ Content-Type: application/json
   
 }
 
+PUT http://localhost:3000/clientes/1
+Content-Type: application/json
+
+{
+  "nome": "Hide",
+  "endereco": "whithe chapel",
+  "bairro": "jkhyt",
+  "cep": "20546575",
+   "cidade_id": "2",
+  "cpf": "132.345.134567",
+  "email": "HeryJekyll@",
+  "telefone": "2786580",
+  "observacoes": "20"
+  
+  
+  
+}
 
 
 ###

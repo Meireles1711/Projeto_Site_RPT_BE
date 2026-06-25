@@ -8,6 +8,15 @@ Content-Type: application/json
   "uf": "mg"
 }
 
+###
+
+PUT http://localhost:3000/cidades/2
+Content-Type: application/json
+
+{
+  "nome": "são paulo",
+  "uf": "sp"
+}
 
 ###
 GET  http://localhost:3000/cidades/

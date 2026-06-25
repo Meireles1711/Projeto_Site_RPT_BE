@@ -1,0 +1,28 @@
+
+POST http://localhost:3000/condicao
+Content-Type: application/json
+
+{
+  "descricao": "Pix"
+
+  
+}
+
+PUT http://localhost:3000/condicao/1
+Content-Type: application/json
+
+{
+  "descricao": "Pix"
+
+  
+}
+
+
+###
+GET  http://localhost:3000/condicao/
+
+###
+GET  http://localhost:3000/condicao/1
+
+###
+DELETE http://localhost:3000/condicao/1
