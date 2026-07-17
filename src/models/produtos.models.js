@@ -26,7 +26,7 @@ exports.criar = async ({descricao, unidade,valor_unit,estoque}) => {
 
 exports.atualizar = async (id, {descricao, unidade,valor_unit,estoque }) => {
     await db.promise().query(
-        'UPDATE cidades SET descricao = ?, unidade = ?,valor_unit = ?, estoque = ? WHERE id = ?',
+        'UPDATE produtos SET descricao = ?, unidade = ?, valor_unit = ?, estoque = ? WHERE id = ?',
         [descricao, unidade,valor_unit,estoque, id]
     );
 };

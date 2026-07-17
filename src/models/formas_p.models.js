@@ -17,7 +17,7 @@ exports.buscarPorId = async (id) => {
 
 exports.criar = async ({descricao }) => {
     const [result] = await db.promise().query(
-        'INSERT INTO formas_pagamento (descricao) VALUES ( ?)',
+        'INSERT INTO formas_pagamento (descricao) VALUES (?)',
         [descricao]
     );
 
@@ -26,7 +26,7 @@ exports.criar = async ({descricao }) => {
 
 exports.atualizar = async (id, { descricao}) => {
     await db.promise().query(
-        'UPDATE formas_pagamento SET descricao = ?,  WHERE id = ?',
+        'UPDATE formas_pagamento SET descricao = ? WHERE id = ?',
         [descricao, id]
     );
 };
