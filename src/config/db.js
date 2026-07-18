@@ -1,21 +1,25 @@
-const mysql = require('mysql2');
-require('dotenv').config();
+// =========================================================
+// CONEXÃO COM O BANCO (MySQL)
+//
+// Instalar antes:
+//   npm install mysql2
+//
+// As credenciais vêm de variáveis de ambiente — no Railway, cada uma
+// é preenchida automaticamente quando você referencia o serviço MySQL
+// (ex: DB_HOST = ${{MySQL.MYSQLHOST}}). Localmente, crie um arquivo
+// .env com os mesmos nomes apontando pro seu MySQL Workbench.
+// =========================================================
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password : process.env.DB_PASSWORD || '',
-    database: process.env.DB_DATABASE || 'livraria',
-    port: 3306
+const mysql = require("mysql2/promise");
+
+const db = mysql.createPool({
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_NAME || "nvstore",
+    waitForConnections: true,
+    connectionLimit: 10
 });
 
-pool.getConnection((err, connection) => {
-    if (err) {
-        console.error('Erro ao conectar ao banco de dados:', err.message);
-        return;
-    }
-    console.log('Conectado ao banco de dados MySQL!');
-    connection.release();
-});
-
-module.exports = pool;
+module.exports = db;
