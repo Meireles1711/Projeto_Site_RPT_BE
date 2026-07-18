@@ -1,0 +1,19 @@
+###
+
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+  "autor": "Diego",
+  "conteudo": "Minha primeira postagem!"
+}
+
+
+###
+GET  http://localhost:3000/posts
+
+###
+GET  http://localhost:3000/posts/5
+
+###
+DELETE http://localhost:3000/posts/5

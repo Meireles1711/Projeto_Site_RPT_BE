@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Monitor Users</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .filtros {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    input, select, button {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #11d100;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #068a01;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background: #12dd00;
+   
+    }
+  </style>
+</head>
+<body>
+
+<h1>📡 Monitoramento Dos Clientes</h1>
+
+<div class="filtros">
+
+  <select id="tipo">
+    <option value="">Tipo de Sensor</option>
+    <option value="temperatura">Temperatura</option>
+    <option value="umidade">Umidade</option>
+    <option value="luminosidade">Luminosidade</option>
+    <option value="presenca">Presença</option>
+  </select>
+
+  <select id="dispositivo">
+    <option value="">Dispositivo</option>
+    <option value="sensor1">Sensor 1</option>
+    <option value="sensor2">Sensor 2</option>
+    <option value="sensor3">Sensor 3</option>
+    <option value="sensor4">Sensor 4</option>
+  </select>
+
+  <input type="datetime-local" id="dataInicio">
+  <input type="datetime-local" id="dataFim">
+
+  <button onclick="buscarDados()">🔍 Filtrar</button>
+  <button onclick="abrirGrafico()">📊 Abrir Gráfico</button>
+
+</div>
+
+<table>
+    
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Dispositivo</th>
+      <th>Tipo</th>
+      <th>Valor</th>
+      <th>Unidade</th>
+      <th>Data/Hora</th>
+    </tr>
+  </thead>
+  <tbody id="tabelaDados"></tbody>
+</table>
+
+
+
+<script>
+async function buscarDados() {
+  const tipo = document.getElementById("tipo").value;
+  const dispositivo = document.getElementById("dispositivo").value;
+  const dataInicio = document.getElementById("dataInicio").value;
+  const dataFim = document.getElementById("dataFim").value;
+
+  let url = "http://localhost:3000/iot?";
+
+  if (tipo) url += `tipo=${tipo}&`;
+  if (dispositivo) url += `dispositivo=${dispositivo}&`;
+
+  if (dataInicio) {
+    const isoInicio = new Date(dataInicio).toISOString();
+    url += `dataInicio=${isoInicio}&`;
+  }
+
+  if (dataFim) {
+    const isoFim = new Date(dataFim).toISOString();
+    url += `dataFim=${isoFim}&`;
+  }
+
+  try {
+    const res = await fetch(url);
+    const dados = await res.json();
+
+    const tabela = document.getElementById("tabelaDados");
+    tabela.innerHTML = "";
+
+    dados.forEach(dado => {
+      const linha = `
+        <tr>
+          <td>${dado.id}</td>
+          <td>${dado.dispositivo}</td>
+          <td>${dado.tipo}</td>
+          <td>${dado.valor}</td>
+          <td>${dado.unidade}</td>
+          <td>${new Date(dado.timestamp).toLocaleString()}</td>
+        </tr>
+      `;
+      tabela.innerHTML += linha;
+    });
+
+  } catch (err) {
+    alert("Erro ao buscar dados");
+    console.error(err);
+  }
+}
+
+function abrirGrafico() {
+  const tipo = document.getElementById("tipo").value;
+  const dispositivo = document.getElementById("dispositivo").value;
+  const dataInicio = document.getElementById("dataInicio").value;
+  const dataFim = document.getElementById("dataFim").value;
+
+  const params = new URLSearchParams();
+
+  if (tipo) params.append("tipo", tipo);
+  if (dispositivo) params.append("dispositivo", dispositivo);
+
+  if (dataInicio) {
+    params.append("dataInicio", new Date(dataInicio).toISOString());
+  }
+
+  if (dataFim) {
+    params.append("dataFim", new Date(dataFim).toISOString());
+  }
+
+  const url = "grafico.html?" + params.toString();
+
+  console.log("Abrindo gráfico:", url); // debug
+
+  window.open(url, "_blank");
+}
+
+</script>
+</body>
+</html>

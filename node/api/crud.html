@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>CRUD IoT</title>
+
+<style>
+body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+
+form, table {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+input, select, button {
+  padding: 8px;
+  margin: 5px;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+</style>
+</head>
+<body>
+
+<h2>📡 CRUD Leituras IoT</h2>
+
+<form id="form">
+  <input type="hidden" id="id">
+
+  <input type="text" id="dispositivo" placeholder="Dispositivo">
+  <input type="text" id="tipo" placeholder="Tipo">
+  <input type="text" id="valor" placeholder="Valor">
+  <input type="text" id="unidade" placeholder="Unidade">
+
+  <button type="submit">💾 Salvar</button>
+</form>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Dispositivo</th>
+<th>Tipo</th>
+<th>Valor</th>
+<th>Unidade</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="tabela"></tbody>
+</table>
+
+<script>
+const API = "http://localhost:3000/iot";
+
+async function carregar() {
+  const res = await fetch(API);
+  const dados = await res.json();
+
+  const tabela = document.getElementById("tabela");
+  tabela.innerHTML = "";
+
+  dados.forEach(d => {
+    tabela.innerHTML += `
+      <tr>
+        <td>${d.id}</td>
+        <td>${d.dispositivo}</td>
+        <td>${d.tipo}</td>
+        <td>${d.valor}</td>
+        <td>${d.unidade}</td>
+        <td>
+          <button onclick="editar(${d.id}, '${d.dispositivo}', '${d.tipo}', '${d.valor}', '${d.unidade}')">✏️</button>
+          <button onclick="excluir(${d.id})">🗑️</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+document.getElementById("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const id = document.getElementById("id").value;
+
+  const dados = {
+    dispositivo: document.getElementById("dispositivo").value,
+    tipo: document.getElementById("tipo").value,
+    valor: document.getElementById("valor").value,
+    unidade: document.getElementById("unidade").value,
+    timestamp: new Date()
+  };
+
+  if (id) {
+    await fetch(`${API}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados)
+    });
+  } else {
+    await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados)
+    });
+  }
+
+  limpar();
+  carregar();
+});
+
+function editar(id, dispositivo, tipo, valor, unidade) {
+  document.getElementById("id").value = id;
+  document.getElementById("dispositivo").value = dispositivo;
+  document.getElementById("tipo").value = tipo;
+  document.getElementById("valor").value = valor;
+  document.getElementById("unidade").value = unidade;
+}
+
+async function excluir(id) {
+  if (confirm("Deseja excluir?")) {
+    await fetch(`${API}/${id}`, {
+      method: "DELETE"
+    });
+    carregar();
+  }
+}
+
+function limpar() {
+  document.getElementById("form").reset();
+  document.getElementById("id").value = "";
+}
+
+carregar();
+</script>
+
+</body>
+</html>

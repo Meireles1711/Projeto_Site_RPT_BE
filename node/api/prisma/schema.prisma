@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+provider = &quot;prisma-client-js&quot;
+}
+
+datasource db {
+provider = &quot;mysql&quot;
+url = env(&quot;DATABASE_URL&quot;)
+}
+
+model Cidade {
+id Int @id @default(autoincrement())
+nome String
+clientes Cliente[]
+uf String
+}
+
+model Cliente {
+id Int @id @default(autoincrement())
+nome String
+endereco String?
+bairro String?
+cep String?
+cpf String?
+email String?
+telefone String?
+observacoes String?
+
+cidadeId Int?
+cidade Cidade? @relation(fields: [cidadeId], references: [id])
+
+pedidos Pedido[]
+}
+
+model Produto {
+id Int @id @default(autoincrement())
+descricao String
+unidade String?
+valor_unit Float
+estoque Int
+
+itens ItemPedido[]
+}
+
+model CondicaoPagamento {
+id Int @id @default(autoincrement())
+descricao String
+
+pedidos Pedido[]
+}
+
+model FormaPagamento {
+id Int @id @default(autoincrement())
+descricao String
+
+pedidos Pedido[]
+}
+
+model Pedido {
+
+id Int @id @default(autoincrement())
+data DateTime
+prazo_entrega DateTime?
+
+clienteId Int?
+cliente Cliente? @relation(fields: [clienteId], references: [id])
+
+condicaoPagamentoId Int?
+condicaoPagamento CondicaoPagamento? @relation(fields:
+[condicaoPagamentoId], references: [id])
+
+formaPagamentoId Int?
+formaPagamento FormaPagamento? @relation(fields:
+[formaPagamentoId], references: [id])
+
+itens ItemPedido[]
+}
+
+model ItemPedido {
+id Int @id @default(autoincrement())
+pedidoId Int
+produtoId Int
+descricao String
+valor_unit Float
+quantidade Int
+subtotal Float
+
+pedido Pedido @relation(fields: [pedidoId], references: [id])
+produto Produto @relation(fields: [produtoId], references: [id])
+}

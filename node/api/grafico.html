@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráfico IoT</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+
+    canvas {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>📊 Gráfico de Leituras IoT</h2>
+
+<canvas id="grafico"></canvas>
+
+<script>
+async function carregarGrafico() {
+  const params = new URLSearchParams(window.location.search);
+  const url = "http://localhost:3000/iot?" + params.toString();
+
+  try {
+    const res = await fetch(url);
+    const dados = await res.json();
+
+    const labels = dados.map(d => new Date(d.timestamp).toLocaleTimeString());
+    const valores = dados.map(d => isNaN(d.valor) ? 0 : Number(d.valor));
+
+    const ctx = document.getElementById("grafico").getContext("2d");
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: params.get("tipo") || "Dados IoT",
+          data: valores,
+          borderWidth: 2,
+          fill: false
+        }]
+      }
+    });
+
+  } catch (err) {
+    console.error(err);
+    alert("Erro ao carregar gráfico");
+  }
+}
+
+carregarGrafico();
+</script>
+
+</body>
+</html>
