@@ -17,7 +17,11 @@ const db = mysql.createPool({
     port: process.env.DB_PORT || 3306,
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD || "",
-    database: process.env.DB_NAME || "nvstore",
+    // CORRIGIDO: o .env do projeto usa DB_DATABASE, não DB_NAME.
+    // Com o nome errado, process.env.DB_DATABASE nunca era lido e o
+    // pool sempre tentava conectar no banco "nvstore" (que não existe),
+    // em vez de "sistema_vendas".
+    database: process.env.DB_DATABASE || "sistema_vendas",
     waitForConnections: true,
     connectionLimit: 10
 });

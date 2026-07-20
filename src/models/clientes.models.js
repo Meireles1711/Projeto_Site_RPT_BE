@@ -2,14 +2,14 @@
 const db = require('../config/db');
 
 exports.buscarTodos = async () => {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
         'SELECT * FROM clientes'
     );
     return rows;
 };
 
 exports.buscarPorId = async (id) => {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
         'SELECT * FROM clientes WHERE id = ?',
         [id]
     );
@@ -27,7 +27,7 @@ exports.criar = async ({
     telefone,
     observacoes
 }) => {
-    const [result] = await db.promise().query(
+    const [result] = await db.query(
         `INSERT INTO clientes
         (nome, endereco, bairro, cep, cidade_id, cpf, email, telefone, observacoes)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -61,7 +61,7 @@ exports.atualizar = async (
         observacoes
     }
 ) => {
-    await db.promise().query(
+    await db.query(
         `UPDATE clientes SET
             nome = ?,
             endereco = ?,
@@ -89,7 +89,7 @@ exports.atualizar = async (
 };
 
 exports.deletar = async (id) => {
-    await db.promise().query(
+    await db.query(
         'DELETE FROM clientes WHERE id = ?',
         [id]
     );

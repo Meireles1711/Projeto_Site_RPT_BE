@@ -9,6 +9,8 @@ const produtosRoutes = require('./routes/produtos.routes');
 const clientesRoutes = require('./routes/clientes.routes');
 const pedidosRoutes = require('./routes/pedidos.routes');
 const itensRoutes = require('./routes/itens_pedido.routes');
+const usuariosRoutes = require('./routes/usuarios.routes');
+const loginRoutes = require('./routes/login.routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 
 const app = express();
@@ -23,6 +25,8 @@ app.use('/produtos', produtosRoutes);
 app.use('/clientes', clientesRoutes);
 app.use('/pedidos', pedidosRoutes);
 app.use('/itens', itensRoutes);
+app.use('/usuarios', usuariosRoutes);
+app.use('/login', loginRoutes);
 
 app.use(errorMiddleware);
 

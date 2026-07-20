@@ -1,7 +1,7 @@
 const db = require('../config/db')
 
 exports.buscarTodos = async () => {
-    const [rows] = await db.promise().query(`
+    const [rows] = await db.query(`
         SELECT  p.*,
         (SELECT COUNT(*) FROM likes WHERE post_id = p.id) as total_likes
         FROM posts p
@@ -11,7 +11,7 @@ exports.buscarTodos = async () => {
 };
 
 exports.buscarPorId = async (id) => {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
         'SELECT * FROM posts WHERE id = ?',
         [id]
     );
@@ -19,7 +19,7 @@ exports.buscarPorId = async (id) => {
 };
 
 exports.criar = async ({ autor, conteudo }) => {
-    const [result] = await db.promise().query(
+    const [result] = await db.query(
         'INSERT INTO posts (autor, conteudo) VALUES (?, ?)',
         [autor, conteudo]
     );
@@ -27,7 +27,7 @@ exports.criar = async ({ autor, conteudo }) => {
 };
 
 exports.deletar = async (id) => {
-    await db.promise().query(
+    await db.query(
         'DELETE FROM posts WHERE id = ?',
         [id]
     );

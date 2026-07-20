@@ -1,14 +1,14 @@
 const db = require('../config/db');
 
 exports.buscarTodos= async () => {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
         'SELECT * FROM pedidos'
     );
     return rows;
 };
 
 exports.buscarPorId = async (id) => {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
         'SELECT * FROM pedidos WHERE id = ?',
         [id]
     );
@@ -16,7 +16,7 @@ exports.buscarPorId = async (id) => {
 };
 
 exports.criar = async ({ data, cliente_id,condicao_pagamento_id,forma_pagamento_id,prazo_entrega }) => {
-    const [result] = await db.promise().query(
+    const [result] = await db.query(
         'INSERT INTO pedidos (data, cliente_id,condicao_pagamento_id,forma_pagamento_id,prazo_entrega) VALUES (?,?,?,?,?)',
         [ data, cliente_id,condicao_pagamento_id,forma_pagamento_id,prazo_entrega ]
     );
@@ -25,14 +25,14 @@ exports.criar = async ({ data, cliente_id,condicao_pagamento_id,forma_pagamento_
 };
 
 exports.atualizar = async (id, { data, cliente_id,condicao_pagamento_id,forma_pagamento_id,prazo_entrega }) => {
-    await db.promise().query(
+    await db.query(
         'UPDATE pedidos SET data = ?, cliente_id= ?, condicao_pagamento_id = ? ,forma_pagamento_id= ? , prazo_entrega = ? WHERE id = ?',
         [ data, cliente_id,condicao_pagamento_id,forma_pagamento_id,prazo_entrega, id]
     );
 };
 
 exports.deletar = async (id) => {
-    await db.promise().query(
+    await db.query(
         'DELETE FROM pedidos WHERE id = ?',
         [id]
     );

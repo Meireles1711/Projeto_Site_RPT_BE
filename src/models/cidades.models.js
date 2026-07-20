@@ -1,14 +1,14 @@
 const db = require('../config/db');
 
 exports.buscarTodos= async () => {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
         'SELECT * FROM cidades'
     );
     return rows;
 };
 
 exports.buscarPorId = async (id) => {
-    const [rows] = await db.promise().query(
+    const [rows] = await db.query(
         'SELECT * FROM cidades WHERE id = ?',
         [id]
     );
@@ -16,7 +16,7 @@ exports.buscarPorId = async (id) => {
 };
 
 exports.criar = async ({ nome, uf }) => {
-    const [result] = await db.promise().query(
+    const [result] = await db.query(
         'INSERT INTO cidades (nome, uf) VALUES (?, ?)',
         [nome, uf]
     );
@@ -25,14 +25,14 @@ exports.criar = async ({ nome, uf }) => {
 };
 
 exports.atualizar = async (id, { nome, uf }) => {
-    await db.promise().query(
+    await db.query(
         'UPDATE cidades SET nome = ?, uf = ? WHERE id = ?',
         [nome, uf, id]
     );
 };
 
 exports.deletar = async (id) => {
-    await db.promise().query(
+    await db.query(
         'DELETE FROM cidades WHERE id = ?',
         [id]
     );
